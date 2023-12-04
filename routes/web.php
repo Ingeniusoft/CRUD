@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuariosController;
-
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,12 +18,12 @@ use App\Http\Controllers\UsuariosController;
 Route::get('/', function () { // En esta parte basicamente lo que significa el nombre de la carpeta
                              // donde se encuentra el archivo
                                 
-    return view('welcome'); // Aqui lo que hace es mostrar el contenido de acuerdo a la solicitud.
+    return view('auth.login'); // Aqui lo que hace es mostrar el contenido de acuerdo a la solicitud.
 });
 
 
 Route::resource('Usuarios', UsuariosController::class); //Forma de acceder a todas las rutas
-
+Auth::routes(['register'=>false, 'reset'=>false]);
 
 //Por ejemplo:
 
@@ -43,12 +43,7 @@ Route::get('/Usuarios/creade', function () {
 y va a tomar el archivo "index"
 
 Route::get('/Usuarios', [UsuariosController::class, 'index']);
-Route::get('/Usuarios/creade',[UsuariosController::class, 'creade']);*/
-
-
-
-
-Auth::routes();
+Route::get('/Usuarios/creade',[UsuariosController::class, 'creade']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -58,4 +53,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');*/
