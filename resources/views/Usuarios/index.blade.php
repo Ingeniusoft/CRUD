@@ -1,4 +1,9 @@
-Inicio (Despliegue de datos)
+
+{{--Si existe mensaje, entonces, mandar a imprimir el mensaje--}}
+@if(Session::has('Mensaje')) {{             
+    Session::get('Mensaje')
+}}
+@endif
 
 <table class="table table-light">
     <thead class="thead-light">
@@ -14,7 +19,6 @@ Inicio (Despliegue de datos)
     </thead>
 
     <tbody>
-        
         @foreach($usuarios as $usuario){{--'usuarios' es la variable que se declaro en el archivo 
         'UsuariosController', especificamente dentro de los corchetes (['usuarios' => $datos])--}}
                 <tr>
@@ -38,6 +42,6 @@ Inicio (Despliegue de datos)
                     </td>
                 </tr>
         @endforeach
-        
     </tbody>
 </table>
+<a href="{{ url('Usuarios/create')}}">Agregar nuevo usuario</a>

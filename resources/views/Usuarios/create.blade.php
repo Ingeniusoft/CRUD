@@ -6,22 +6,8 @@ Seccion para crear empleados
 
     {{ csrf_field() }} {{--Imprime una llave de acceso para que cuando se haga el envio a store nos deje
     entrar gracias a esto.--}}
-    <br>
-    <label for="nombres">{{'Nombres'}}</label>
-    <input type="text" name="nombres" id="nombres">
-    <br>
-    <label for="apellidos">{{'Apellidos'}}</label>
-    <input type="text" name="apellidos" id="apellidos">
-    <br>
-    <label for="telefono">{{'Telefono'}}</label>
-    <input type="text" name="telefono" id="telefono">
-    <br>
-    <label for="email">{{'Correo Electronico'}}</label>
-    <input type="email" name="email" id="email">
-    <br>
-    <label for="edad">{{'Edad'}}</label>
-    <input type="number" name="edad" id="edad">    
-    <br>
-    <input type="submit" value="Agregar">
+
+    @include ('Usuarios.form',['Modo'=>'crear']) {{--Sirve para extraer contenido de otros archivos, lo que esta adentro de
+        los corchetes sirve para distinguir que formulario se esta utilizando--}}
 
 </form>

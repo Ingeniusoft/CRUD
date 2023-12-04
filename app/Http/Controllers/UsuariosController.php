@@ -54,8 +54,10 @@ class UsuariosController extends Controller
         Usuarios::insert($datosUsuario);//Significa que voy a insertar los datos de usuario en la tabla 
                                         //'Usuarios'
         
-        return response()->json($datosUsuario); //En lugar de retornar una vista, se retorna una respuesta
-                                                //
+        return redirect('Usuarios')->with('Mensaje', 'Ususario agregado con exito :)'); 
+        // Significa que al momento de agregar un nuevo usuario nos va a redireccionar a Usuarios (index) y que
+        // ademas va a imprimir un mensaje en pantalla
+
     }
 
     /**
@@ -100,8 +102,10 @@ class UsuariosController extends Controller
         $datosUsuario=request()->except(['_token', '_method']);
         Usuarios::where('id', '=', $id)->update($datosUsuario);
 
-        $usuario = Usuarios::findOrFail($id);
-        return view('Usuarios.edit', compact('usuario'));
+        //$usuario = Usuarios::findOrFail($id);
+        //return view('Usuarios.edit', compact('usuario'));
+
+        return  redirect('Usuarios')->with('Mensaje', 'Usuario actualizado con exito :)');
     }
 
     /**
@@ -116,6 +120,8 @@ class UsuariosController extends Controller
         //
         Usuarios::destroy($id);/*Con esto eliminamos el registro usuarios pasandole el parametro 'id' definida 
         en el index (<form action="{{ url('/usuarios/'.$usuario->id) }}")*/
-        return redirect('Usuarios');//redirecciona a la vista usuarios
+        //return redirect('Usuarios');redirecciona a la vista usuarios (index.blade)
+
+        return  redirect('Usuarios')->with('Mensaje', 'Usuario eliminado con exito :)');
     }
 }
