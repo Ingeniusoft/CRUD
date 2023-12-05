@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuarios;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 
 class UsuariosController extends Controller
 {
@@ -18,7 +19,7 @@ class UsuariosController extends Controller
 
         //dd('Hola');
 
-        $datos=Usuarios::paginate(5); //Vamos a estar viendo registros de 5 en 5, 'usuarios' es un 
+        $datos=Usuarios::get(); //Vamos a estar viendo registros de 5 en 5, 'usuarios' es un 
                                                     //indice                  
         return view('Usuarios.index',['usuarios' => $datos]);//Significa que se esta pasando toda la informacion (['usuarios']) 
         //que se ha recuperado  de "Usuarios::" a la vista "index.blade".
@@ -44,8 +45,15 @@ class UsuariosController extends Controller
      */
     public function store(Request $request)
     {
-        //Para obtener la informacion de request hacemos lo siguiente
-        //$datosUsuario=$request->all();/*Estamos diciendo que todo lo de store se almacene en "datosUsuario"*/
+        /*$campos = [
+            'Nombres' => 'required | string | max:50',
+            'Apellidos' => 'required | string | max:100',
+            'Telefono' => 'required | string',
+            'Email' => 'email',
+            'Edad' => 'required | number'
+        ];
+        $Mensaje =["required"=>'El :attribute es requerido'];
+        $this->validate($request, $campos, $Mensaje);*/
 
         $datosUsuario=request()->except('_token');//Significa que va a almacenar los datos a excepcion del token,
                                                 // ya que los valores deben coincider con los campos la tabla 
@@ -53,8 +61,14 @@ class UsuariosController extends Controller
 
         Usuarios::insert($datosUsuario);//Significa que voy a insertar los datos de usuario en la tabla 
                                         //'Usuarios'
-        
-        return redirect('Usuarios')->with('Mensaje', 'Ususario agregado con exito :)'); 
+
+        $request->session()->flash('alert-crear', [
+            'type' => 'success',
+            'message' => 'Usuario agregado con éxito :)'
+        ]);
+
+        return redirect(url('Usuarios/create'));
+        //return redirect('Usuarios')->with('Mensaje', 'Ususario agregado con exito :)'); 
         // Significa que al momento de agregar un nuevo usuario nos va a redireccionar a Usuarios (index) y que
         // ademas va a imprimir un mensaje en pantalla
 
@@ -105,7 +119,12 @@ class UsuariosController extends Controller
         //$usuario = Usuarios::findOrFail($id);
         //return view('Usuarios.edit', compact('usuario'));
 
-        return  redirect('Usuarios')->with('Mensaje', 'Usuario actualizado con exito :)');
+        $request->session()->flash('alert-editar', [
+            'type' => 'success',
+            'message' => 'Usuario actualizado con éxito :)'
+        ]);
+        
+        return redirect(url('Usuarios/' . $id . '/edit'));
     }
 
     /**
@@ -114,7 +133,7 @@ class UsuariosController extends Controller
      * @param  \App\Models\Usuarios  $usuarios
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) /*En lugar de recibir todo el objeto "destroy(Usuarios $usuarios), recibimos 
+    public function destroy(Request $request, $id) /*En lugar de recibir todo el objeto "destroy(Usuarios $usuarios), recibimos 
     solo el id"*/
     {
         //
@@ -122,6 +141,11 @@ class UsuariosController extends Controller
         en el index (<form action="{{ url('/usuarios/'.$usuario->id) }}")*/
         //return redirect('Usuarios');redirecciona a la vista usuarios (index.blade)
 
-        return  redirect('Usuarios')->with('Mensaje', 'Usuario eliminado con exito :)');
+        $request->session()->flash('alert-eliminar', [
+            'type' => 'success',
+            'message' => 'Usuario eliminado con éxito :)'
+        ]);
+        
+        return redirect(url('Usuarios'));
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuariosController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +23,9 @@ Route::get('/', function () { // En esta parte basicamente lo que significa el n
 });
 
 
-Route::resource('Usuarios', UsuariosController::class); //Forma de acceder a todas las rutas
+Route::resource('Usuarios', UsuariosController::class)->middleware('auth'); //Forma de acceder a todas las rutas
 Auth::routes(['register'=>false, 'reset'=>false]);
+Route::get('/Usuarios/generar-pdf', [PDFController::class, 'generarPDF'])->name('usuarios.generar-pdf');
 
 //Por ejemplo:
 
